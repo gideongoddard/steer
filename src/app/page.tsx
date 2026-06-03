@@ -1,66 +1,78 @@
-import Image from "next/image";
-import styles from "./page.module.css";
+import Link from 'next/link'
+import { redirect } from 'next/navigation'
+import { createClient } from '@/utils/supabase/server'
+import { signOut } from './actions/auth'
+import { removeSavedList } from './actions/claims'
+import styles from './dashboard.module.css'
 
-export default function Home() {
+export default async function DashboardPage() {
+  const supabase = await createClient()
+  const { data: { user } } = await supabase.auth.getUser()
+
+  if (!user) redirect('/signin')
+
+  const [{ data: lists }, { data: savedLists }] = await Promise.all([
+    supabase
+      .from('lists')
+      .select('id, name')
+      .eq('user_id', user.id)
+      .order('created_at', { ascending: false }),
+    supabase
+      .from('list_saves')
+      .select('id, list_id, lists(id, name, share_code)')
+      .eq('user_id', user.id)
+      .order('created_at', { ascending: false }),
+  ])
+
   return (
     <div className={styles.page}>
-      <main className={styles.main}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className={styles.intro}>
-          <h1>To get started, edit the page.tsx file.</h1>
-          <p>
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className={styles.ctas}>
-          <a
-            className={styles.primary}
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className={styles.logo}
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className={styles.secondary}
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
+      <header className={styles.header}>
+        <h1>My lists</h1>
+        <form action={signOut}>
+          <button type="submit" className={styles.signOutButton}>Sign out</button>
+        </form>
+      </header>
+      <main>
+        {lists && lists.length > 0 ? (
+          <ul className={styles.listGrid}>
+            {lists.map((list) => (
+              <li key={list.id}>
+                <Link href={`/lists/${list.id}`} className={styles.listCard}>
+                  <span className={styles.listName}>{list.name}</span>
+                </Link>
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <div className={styles.emptyState}>
+            <p>You don&apos;t have any lists yet.</p>
+            <Link href="/lists/new" className={styles.ctaButton}>Create your first list</Link>
+          </div>
+        )}
+
+        {savedLists && savedLists.length > 0 && (
+          <section className={styles.sharedSection}>
+            <h2 className={styles.sectionTitle}>Shared lists</h2>
+            <ul className={styles.listGrid}>
+              {savedLists.map((save) => {
+                const list = save.lists as unknown as { id: string; name: string; share_code: string } | null
+                if (!list) return null
+                return (
+                  <li key={save.id} className={styles.savedListItem}>
+                    <Link href={`/share/${list.share_code}`} className={styles.listCard}>
+                      <span className={styles.listName}>{list.name}</span>
+                    </Link>
+                    <form action={removeSavedList}>
+                      <input type="hidden" name="listId" value={list.id} />
+                      <button type="submit" className={styles.removeButton}>Remove</button>
+                    </form>
+                  </li>
+                )
+              })}
+            </ul>
+          </section>
+        )}
       </main>
     </div>
-  );
+  )
 }
