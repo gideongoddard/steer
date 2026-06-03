@@ -1,10 +1,17 @@
 import Link from 'next/link'
 import { redirect } from 'next/navigation'
 import { createClient } from '@/utils/supabase/server'
-import styles from './list.module.css'
 import CopyShareLink from './CopyShareLink'
 import ItemRow from './ItemRow'
 import AddItemForm from './AddItemForm'
+
+function ArrowLeftIcon() {
+  return (
+    <svg width={15} height={15} viewBox="0 0 24 24" fill="none">
+      <path d="M11 6l-6 6 6 6M5 12h14" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  )
+}
 
 export default async function ListPage({
   params,
@@ -35,26 +42,42 @@ export default async function ListPage({
   const shareUrl = `${siteUrl}/share/${list.share_code}`
 
   return (
-    <div className={styles.page}>
-      <header className={styles.header}>
-        <div className={styles.headerLeft}>
-          <Link href="/" className={styles.backLink}>← Dashboard</Link>
-          <h1 className={styles.title}>{list.name}</h1>
+    <>
+      <nav className="appbar">
+        <span className="wordmark">wispr<span className="dot">.</span></span>
+      </nav>
+
+      <div className="screen">
+        <Link href="/" className="back">
+          <ArrowLeftIcon />
+          My lists
+        </Link>
+
+        <div className="header-block" style={{ marginTop: 14 }}>
+          <div className="header-top">
+            <div className="head-col">
+              <div className="eyebrow">Your list</div>
+              <h1 className="display">{list.name}</h1>
+              <div className="title-meta">
+                <span className="l-sub" style={{ fontSize: 13.5 }}>
+                  {(items ?? []).length} {(items ?? []).length === 1 ? 'gift' : 'gifts'}
+                </span>
+              </div>
+            </div>
+            <CopyShareLink url={shareUrl} code={list.share_code} />
+          </div>
         </div>
-        <CopyShareLink url={shareUrl} />
-      </header>
-      <main>
+
         {items && items.length > 0 ? (
-          <ul className={styles.itemList}>
+          <div className="items">
             {items.map((item) => (
               <ItemRow key={item.id} item={item} />
             ))}
-          </ul>
-        ) : (
-          <p className={styles.emptyItems}>No items yet — add one below.</p>
-        )}
-        <AddItemForm listId={list.id} />
-      </main>
-    </div>
+          </div>
+        ) : null}
+
+        <AddItemForm listId={list.id} hasItems={!!(items && items.length > 0)} />
+      </div>
+    </>
   )
 }

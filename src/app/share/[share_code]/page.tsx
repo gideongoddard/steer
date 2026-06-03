@@ -1,7 +1,45 @@
 import Link from 'next/link'
 import { createClient } from '@/utils/supabase/server'
 import { claimItem, unclaimItem } from '@/app/actions/claims'
-import styles from './share.module.css'
+
+function ArrowLeftIcon() {
+  return (
+    <svg width={15} height={15} viewBox="0 0 24 24" fill="none">
+      <path d="M11 6l-6 6 6 6M5 12h14" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  )
+}
+
+function ArrowUpRightIcon() {
+  return (
+    <svg width={12} height={12} viewBox="0 0 24 24" fill="none">
+      <path d="M7 17L17 7M9 7h8v8" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  )
+}
+
+function LockIcon() {
+  return (
+    <svg width={14} height={14} viewBox="0 0 24 24" fill="none">
+      <rect x="5" y="11" width="14" height="9" rx="2.2" stroke="currentColor" strokeWidth="1.6" />
+      <path d="M8 11V8a4 4 0 018 0v3" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
+    </svg>
+  )
+}
+
+function CheckIcon() {
+  return (
+    <svg width={15} height={15} viewBox="0 0 24 24" fill="none">
+      <path d="M5 12.5l4.5 4.5L19 7" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  )
+}
+
+function getInitials(name: string) {
+  const parts = name.trim().split(/\s+/)
+  if (parts.length >= 2) return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase()
+  return name.slice(0, 2).toUpperCase()
+}
 
 export default async function SharePage({
   params,
@@ -20,14 +58,12 @@ export default async function SharePage({
 
   if (!list) {
     return (
-      <div className={styles.page}>
-        <div className={styles.notFound}>
-          <h1 className={styles.title}>List not found</h1>
-          <p className={styles.notFoundText}>
-            This link doesn&apos;t match any list. The owner may have deleted it.
-          </p>
-          <Link href="/" className={styles.homeLink}>Go to dashboard</Link>
-        </div>
+      <div className="screen" style={{ paddingTop: 80, textAlign: 'center' }}>
+        <h1 className="display" style={{ marginBottom: 16 }}>List not found</h1>
+        <p className="l-sub" style={{ marginBottom: 24 }}>
+          This link doesn&apos;t match any list. The owner may have deleted it.
+        </p>
+        <Link href="/" className="btn btn-quiet">Go to dashboard</Link>
       </div>
     )
   }
@@ -44,33 +80,33 @@ export default async function SharePage({
       .limit(2)
 
     return (
-      <div className={styles.page}>
-        <h1 className={styles.title}>{list.name}</h1>
+      <div className="screen" style={{ paddingTop: 48 }}>
+        <div className="header-block">
+          <h1 className="display">{list.name}</h1>
+        </div>
+
         {preview && preview.length > 0 && (
-          <ul className={styles.itemList}>
+          <div className="items" style={{ marginBottom: 24 }}>
             {preview.map((item) => (
-              <li key={item.id} className={styles.item}>
-                <div className={styles.itemContent}>
-                  <span className={styles.itemName}>{item.name}</span>
+              <div key={item.id} className="item">
+                <div className="item-body">
+                  <span className="item-name">{item.name}</span>
                   {item.url && (
-                    <a href={item.url} target="_blank" rel="noopener noreferrer" className={styles.itemLink}>
-                      Link ↗
+                    <a href={item.url.startsWith('http') ? item.url : `https://${item.url}`} target="_blank" rel="noopener noreferrer" className="item-link">
+                      {item.url} <ArrowUpRightIcon />
                     </a>
                   )}
                 </div>
-              </li>
+              </div>
             ))}
-          </ul>
+          </div>
         )}
-        <div className={styles.gate}>
-          <p className={styles.gateText}>Sign in to see the full list and claim items.</p>
-          <div className={styles.gateActions}>
-            <Link href={`/signin?next=/share/${share_code}`} className={styles.primaryButton}>
-              Sign in
-            </Link>
-            <Link href={`/signup?next=/share/${share_code}`} className={styles.secondaryButton}>
-              Create account
-            </Link>
+
+        <div className="note" style={{ flexDirection: 'column', gap: 16 }}>
+          <p style={{ color: 'var(--ink)' }}>Sign in to see the full list and claim items.</p>
+          <div style={{ display: 'flex', gap: 10 }}>
+            <Link href={`/signin?next=/share/${share_code}`} className="btn btn-primary">Sign in</Link>
+            <Link href={`/signup?next=/share/${share_code}`} className="btn btn-quiet">Create account</Link>
           </div>
         </div>
       </div>
@@ -86,106 +122,154 @@ export default async function SharePage({
   // === Owner ===
   if (user.id === list.user_id) {
     return (
-      <div className={styles.page}>
-        <header className={styles.header}>
-          <div className={styles.headerLeft}>
-            <Link href={`/lists/${list.id}`} className={styles.backLink}>← Edit list</Link>
-            <h1 className={styles.title}>{list.name}</h1>
+      <>
+        <nav className="appbar">
+          <span className="wordmark">wispr<span className="dot">.</span></span>
+        </nav>
+        <div className="screen">
+          <Link href={`/lists/${list.id}`} className="back">
+            <ArrowLeftIcon />
+            Edit list
+          </Link>
+
+          <div className="header-block" style={{ marginTop: 14 }}>
+            <div className="eyebrow">Preview</div>
+            <h1 className="display">{list.name}</h1>
+            <div className="title-meta">
+              <span className="l-sub" style={{ fontSize: 13.5 }}>This is how your list looks to others</span>
+            </div>
           </div>
-          <p className={styles.ownerNote}>This is how your list looks to others.</p>
-        </header>
-        {items && items.length > 0 ? (
-          <ul className={styles.itemList}>
-            {items.map((item) => (
-              <li key={item.id} className={styles.item}>
-                <div className={styles.itemContent}>
-                  <span className={styles.itemName}>{item.name}</span>
-                  {item.url && (
-                    <a href={item.url} target="_blank" rel="noopener noreferrer" className={styles.itemLink}>
-                      Link ↗
-                    </a>
-                  )}
+
+          {items && items.length > 0 ? (
+            <div className="items">
+              {items.map((item) => (
+                <div key={item.id} className="item">
+                  <div className="item-body">
+                    <span className="item-name">{item.name}</span>
+                    {item.url && (
+                      <a href={item.url.startsWith('http') ? item.url : `https://${item.url}`} target="_blank" rel="noopener noreferrer" className="item-link">
+                        {item.url} <ArrowUpRightIcon />
+                      </a>
+                    )}
+                  </div>
                 </div>
-              </li>
-            ))}
-          </ul>
-        ) : (
-          <p className={styles.emptyItems}>No items on this list yet.</p>
-        )}
-      </div>
+              ))}
+            </div>
+          ) : (
+            <p className="l-sub">No items on this list yet.</p>
+          )}
+        </div>
+      </>
     )
   }
 
   // === Authenticated non-owner ===
 
   const itemIds = items?.map((i) => i.id) ?? []
-  const { data: claims } = itemIds.length > 0
-    ? await supabase.from('claims').select('item_id, user_id').in('item_id', itemIds)
-    : { data: [] }
+  const [claimsResult, existingSaveResult, ownerProfileResult] = await Promise.all([
+    itemIds.length > 0
+      ? supabase.from('claims').select('item_id, user_id').in('item_id', itemIds)
+      : Promise.resolve({ data: [] }),
+    supabase.from('list_saves').select('id').eq('list_id', list.id).eq('user_id', user.id).maybeSingle(),
+    supabase.from('profiles').select('first_name, last_name').eq('user_id', list.user_id).single(),
+  ])
 
-  // Auto-save on first visit
-  const { data: existingSave } = await supabase
-    .from('list_saves')
-    .select('id')
-    .eq('list_id', list.id)
-    .eq('user_id', user.id)
-    .maybeSingle()
-
-  if (!existingSave) {
+  if (!existingSaveResult.data) {
     await supabase.from('list_saves').insert({ list_id: list.id, user_id: user.id })
   }
 
+  const claims = claimsResult.data
+  const ownerProfile = ownerProfileResult.data
+  const ownerFullName = ownerProfile
+    ? `${ownerProfile.first_name} ${ownerProfile.last_name}`.trim()
+    : list.name
   const claimMap = new Map(claims?.map((c) => [c.item_id, c.user_id]) ?? [])
+  const ownerInitials = getInitials(ownerFullName)
 
   return (
-    <div className={styles.page}>
-      <header className={styles.header}>
-        <div className={styles.headerLeft}>
-          <Link href="/" className={styles.backLink}>← Dashboard</Link>
-          <h1 className={styles.title}>{list.name}</h1>
-        </div>
-      </header>
-      {items && items.length > 0 ? (
-        <ul className={styles.itemList}>
-          {items.map((item) => {
-            const claimedBy = claimMap.get(item.id)
-            const claimedByMe = claimedBy === user.id
-            const claimedByOther = !!claimedBy && claimedBy !== user.id
+    <>
+      <nav className="appbar">
+        <span className="wordmark">wispr<span className="dot">.</span></span>
+      </nav>
+      <div className="screen">
+        <Link href="/" className="back">
+          <ArrowLeftIcon />
+          My lists
+        </Link>
 
-            return (
-              <li key={item.id} className={styles.item}>
-                <div className={styles.itemContent}>
-                  <span className={styles.itemName}>{item.name}</span>
-                  {item.url && (
-                    <a href={item.url} target="_blank" rel="noopener noreferrer" className={styles.itemLink}>
-                      Link ↗
-                    </a>
+        <div className="header-block" style={{ marginTop: 14 }}>
+          <div className="header-top">
+            <div className="head-col">
+              <div className="eyebrow">{list.name}</div>
+              <h1 className="display">{list.name}</h1>
+              <div className="title-meta">
+                <div className="avatar" style={{ width: 26, height: 26, fontSize: 11 }}>{ownerInitials}</div>
+                <span className="l-sub" style={{ fontSize: 13.5 }}>{ownerFullName} · {(items ?? []).length} gifts</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="note">
+          <span className="ic"><LockIcon /></span>
+          <span>
+            <strong style={{ color: 'var(--ink)', fontWeight: 500 }}>The list owner can&apos;t see who claimed what.</strong>{' '}
+            Claiming just quietly tells other guests it&apos;s taken — so nobody doubles up.
+          </span>
+        </div>
+
+        {items && items.length > 0 ? (
+          <div className="items">
+            {items.map((item) => {
+              const claimedBy = claimMap.get(item.id)
+              const claimedByMe = claimedBy === user.id
+              const claimedByOther = !!claimedBy && claimedBy !== user.id
+
+              return (
+                <div
+                  key={item.id}
+                  className={`item${claimedByMe ? ' claimed-mine' : claimedByOther ? ' claimed-other' : ''}`}
+                >
+                  {claimedByMe && (
+                    <div className="claim-check"><CheckIcon /></div>
                   )}
+                  <div className="item-body">
+                    <span className="item-name">{item.name}</span>
+                    {claimedByMe ? (
+                      <span className="claim-label">You&apos;re giving this</span>
+                    ) : item.url ? (
+                      <a href={item.url.startsWith('http') ? item.url : `https://${item.url}`} target="_blank" rel="noopener noreferrer" className="item-link">
+                        {item.url} <ArrowUpRightIcon />
+                      </a>
+                    ) : null}
+                  </div>
+                  <div className="item-actions">
+                    {claimedByMe ? (
+                      <form action={unclaimItem}>
+                        <input type="hidden" name="itemId" value={item.id} />
+                        <input type="hidden" name="shareCode" value={share_code} />
+                        <button type="submit" className="btn btn-quiet btn-sm">Release</button>
+                      </form>
+                    ) : claimedByOther ? (
+                      <span className="badge-claimed">Claimed</span>
+                    ) : (
+                      <form action={claimItem}>
+                        <input type="hidden" name="itemId" value={item.id} />
+                        <input type="hidden" name="shareCode" value={share_code} />
+                        <button type="submit" className="btn btn-ghost btn-sm">
+                          <CheckIcon /> Claim
+                        </button>
+                      </form>
+                    )}
+                  </div>
                 </div>
-                <div className={styles.itemActions}>
-                  {claimedByMe ? (
-                    <form action={unclaimItem}>
-                      <input type="hidden" name="itemId" value={item.id} />
-                      <input type="hidden" name="shareCode" value={share_code} />
-                      <button type="submit" className={styles.unclaimButton}>Unclaim</button>
-                    </form>
-                  ) : claimedByOther ? (
-                    <span className={styles.claimedBadge}>Claimed</span>
-                  ) : (
-                    <form action={claimItem}>
-                      <input type="hidden" name="itemId" value={item.id} />
-                      <input type="hidden" name="shareCode" value={share_code} />
-                      <button type="submit" className={styles.secondaryButton}>Claim</button>
-                    </form>
-                  )}
-                </div>
-              </li>
-            )
-          })}
-        </ul>
-      ) : (
-        <p className={styles.emptyItems}>No items on this list yet.</p>
-      )}
-    </div>
+              )
+            })}
+          </div>
+        ) : (
+          <p className="l-sub">No items on this list yet.</p>
+        )}
+      </div>
+    </>
   )
 }

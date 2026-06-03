@@ -13,12 +13,20 @@ export default function SignUpForm({ next }: { next?: string }) {
       <form action={action} className={styles.form}>
         {next && <input type="hidden" name="next" value={next} />}
         <div className={styles.field}>
+          <label htmlFor="firstName">First name</label>
+          <input id="firstName" name="firstName" type="text" autoComplete="given-name" required />
+        </div>
+        <div className={styles.field}>
+          <label htmlFor="lastName">Last name</label>
+          <input id="lastName" name="lastName" type="text" autoComplete="family-name" required />
+        </div>
+        <div className={styles.field}>
           <label htmlFor="email">Email</label>
-          <input id="email" name="email" type="email" required />
+          <input id="email" name="email" type="email" autoComplete="email" required />
         </div>
         <div className={styles.field}>
           <label htmlFor="password">Password</label>
-          <input id="password" name="password" type="password" required />
+          <input id="password" name="password" type="password" autoComplete="new-password" required />
         </div>
         <button type="submit" className={styles.button} disabled={pending}>
           {pending ? 'Signing up...' : 'Sign up'}

@@ -12,11 +12,20 @@ function safeNext(next: FormDataEntryValue | null): string {
 }
 
 export async function signUp(prevState: AuthState, formData: FormData): Promise<AuthState> {
+  const firstName = (formData.get('firstName') as string)?.trim()
+  const lastName = (formData.get('lastName') as string)?.trim()
   const email = formData.get('email') as string
   const password = formData.get('password') as string
 
+  if (!firstName) return { error: 'First name is required.' }
+  if (!lastName) return { error: 'Last name is required.' }
+
   const supabase = await createClient()
-  const { error } = await supabase.auth.signUp({ email, password })
+  const { error } = await supabase.auth.signUp({
+    email,
+    password,
+    options: { data: { first_name: firstName, last_name: lastName } },
+  })
 
   if (error) {
     if (error.message === 'User already registered') {
