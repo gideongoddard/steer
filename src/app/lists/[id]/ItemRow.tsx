@@ -14,16 +14,32 @@ function ArrowUpRightIcon() {
   )
 }
 
+function EditIcon() {
+  return (
+    <svg width={15} height={15} viewBox="0 0 24 24" fill="none">
+      <path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  )
+}
+
+function TrashIcon() {
+  return (
+    <svg width={15} height={15} viewBox="0 0 24 24" fill="none">
+      <path d="M3 6h18M8 6V4h8v2M19 6l-1 14H6L5 6" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  )
+}
+
 export default function ItemRow({ item }: { item: Item }) {
   const [editing, setEditing] = useState(false)
-  const [hover, setHover] = useState(false)
   const [state, action, pending] = useActionState(updateItem, {})
 
   if (editing) {
     return (
       <form
         action={action}
-        style={{ display: 'flex', flexDirection: 'column', gap: 12, padding: '18px', background: 'var(--surface)' }}
+        style={{ display: 'flex', flexDirection: 'column', gap: 12, padding: '18px var(--row-px)', background: 'var(--surface)', borderRadius: 'var(--radius)', border: '1px solid color-mix(in oklab, var(--accent) 30%, var(--border))' }}
       >
         <input type="hidden" name="itemId" value={item.id} />
         <input type="hidden" name="listId" value={item.list_id} />
@@ -62,11 +78,7 @@ export default function ItemRow({ item }: { item: Item }) {
   }
 
   return (
-    <div
-      className="item"
-      onMouseEnter={() => setHover(true)}
-      onMouseLeave={() => setHover(false)}
-    >
+    <div className="item">
       <div className="item-body">
         <span className="item-name">{item.name}</span>
         {item.url && (
@@ -80,12 +92,16 @@ export default function ItemRow({ item }: { item: Item }) {
           </a>
         )}
       </div>
-      <div className="item-actions" style={{ opacity: hover ? 1 : 0, transition: 'opacity .18s ease' }}>
-        <button type="button" className="btn btn-quiet btn-sm" onClick={() => setEditing(true)}>Edit</button>
+      <div className="item-actions">
+        <button type="button" className="icon-btn" onClick={() => setEditing(true)} title="Edit">
+          <EditIcon />
+        </button>
         <form action={deleteItem}>
           <input type="hidden" name="itemId" value={item.id} />
           <input type="hidden" name="listId" value={item.list_id} />
-          <button type="submit" className="btn btn-danger btn-sm">Delete</button>
+          <button type="submit" className="icon-btn icon-danger" title="Delete">
+            <TrashIcon />
+          </button>
         </form>
       </div>
     </div>

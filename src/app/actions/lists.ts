@@ -12,6 +12,26 @@ function generateShareCode(): string {
   return Array.from(bytes, (b) => chars[b % chars.length]).join('')
 }
 
+export async function deleteList(formData: FormData): Promise<void> {
+  const listId = formData.get('listId') as string
+
+  const supabase = await createClient()
+  const { data: { user } } = await supabase.auth.getUser()
+  if (!user) return
+
+  // Verify ownership before deleting
+  const { data: list } = await supabase
+    .from('lists')
+    .select('user_id')
+    .eq('id', listId)
+    .single()
+
+  if (!list || list.user_id !== user.id) return
+
+  await supabase.from('lists').delete().eq('id', listId)
+  redirect('/')
+}
+
 export async function createList(prevState: ListState, formData: FormData): Promise<ListState> {
   const name = (formData.get('name') as string)?.trim()
 

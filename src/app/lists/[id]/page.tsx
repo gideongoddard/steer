@@ -4,6 +4,7 @@ import { createClient } from '@/utils/supabase/server'
 import CopyShareLink from './CopyShareLink'
 import ItemRow from './ItemRow'
 import AddItemForm from './AddItemForm'
+import DeleteListFooter from './DeleteListFooter'
 
 function ArrowLeftIcon() {
   return (
@@ -77,6 +78,7 @@ export default async function ListPage({
         ) : null}
 
         <AddItemForm listId={list.id} hasItems={!!(items && items.length > 0)} />
+        <DeleteListFooter listId={list.id} listName={list.name} />
       </div>
     </>
   )

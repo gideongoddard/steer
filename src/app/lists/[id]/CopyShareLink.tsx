@@ -28,11 +28,12 @@ export default function CopyShareLink({ url, code }: { url: string; code: string
     setTimeout(() => setCopied(false), 1800)
   }
 
-  const display = code.length > 10 ? code.slice(-8) : code
-
   return (
     <button type="button" onClick={handleCopy} className={`share-pill${copied ? ' copied' : ''}`}>
-      <span className="code">{copied ? 'Link copied' : display}</span>
+      <div className="share-meta">
+        <span className="share-label">{copied ? 'Link copied!' : 'Share your list'}</span>
+        <span className="code">{code}</span>
+      </div>
       <span className="copy-ic">{copied ? <CheckIcon /> : <CopyIcon />}</span>
     </button>
   )
