@@ -631,6 +631,8 @@ a { color: inherit; text-decoration: none; }
 @media (max-width: 540px) {
   .header-top { flex-direction: column; }
   .share-pill { align-self: flex-start; }
+  .owned-meta { flex-wrap: wrap; }
+  .owned-meta .dotsep { display: none; }
 }
 
 /* ── Reduced motion ── */
