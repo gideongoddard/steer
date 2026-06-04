@@ -38,9 +38,9 @@ CREATE TRIGGER on_auth_user_created
 
 ALTER TABLE profiles ENABLE ROW LEVEL SECURITY;
 
--- Any authenticated user can read profiles (needed to show owner names)
+-- Anyone (including unauthenticated visitors) can read profiles (needed to show owner names on shared lists)
 CREATE POLICY "profiles_select" ON profiles
-  FOR SELECT USING (auth.uid() IS NOT NULL);
+  FOR SELECT USING (true);
 
 -- Users can only update their own profile
 CREATE POLICY "profiles_update" ON profiles
@@ -50,5 +50,6 @@ CREATE POLICY "profiles_update" ON profiles
 -- Grants
 -- ============================================================
 
+GRANT SELECT ON profiles TO anon;
 GRANT SELECT ON profiles TO authenticated;
 GRANT UPDATE ON profiles TO authenticated;

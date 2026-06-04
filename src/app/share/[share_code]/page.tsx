@@ -81,44 +81,59 @@ export default async function SharePage({
 
   // === Unauthenticated ===
   if (!user) {
-    const { data: preview } = await supabase
-      .from('items')
-      .select('id, name, url')
-      .eq('list_id', list.id)
-      .order('created_at', { ascending: true })
-      .limit(2)
+    const [previewResult, ownerProfileResult] = await Promise.all([
+      supabase.from('items').select('id, name, url').eq('list_id', list.id).order('created_at', { ascending: true }).limit(2),
+      supabase.from('profiles').select('first_name, last_name').eq('user_id', list.user_id).single(),
+    ])
+
+    const preview = previewResult.data
+    const ownerProfile = ownerProfileResult.data
+    const ownerFullName = ownerProfile
+      ? `${ownerProfile.first_name} ${ownerProfile.last_name}`.trim()
+      : null
 
     return (
-      <div className="screen" style={{ paddingTop: 48 }}>
-        <div className="header-block">
-          <h1 className="display">{list.name}</h1>
-        </div>
-
-        {preview && preview.length > 0 && (
-          <div className="items" style={{ marginBottom: 24 }}>
-            {preview.map((item) => (
-              <div key={item.id} className="item">
-                <div className="item-body">
-                  <span className="item-name">{item.name}</span>
-                  {item.url && (
-                    <a href={item.url.startsWith('http') ? item.url : `https://${item.url}`} target="_blank" rel="noopener noreferrer" className="item-link">
-                      {displayUrl(item.url)} <ArrowUpRightIcon />
-                    </a>
-                  )}
-                </div>
+      <>
+        <nav className="appbar">
+          <span className="wordmark">steer<span className="dot">.</span></span>
+        </nav>
+        <div className="screen">
+          <div className="header-block">
+            <h1 className="display">{list.name}</h1>
+            {ownerFullName && (
+              <div className="title-meta">
+                <div className="avatar" style={{ width: 26, height: 26, fontSize: 11 }}>{getInitials(ownerFullName)}</div>
+                <span className="l-sub" style={{ fontSize: 13.5 }}>{ownerFullName}</span>
               </div>
-            ))}
+            )}
           </div>
-        )}
 
-        <div className="note" style={{ flexDirection: 'column', gap: 16 }}>
-          <p style={{ color: 'var(--ink)' }}>Sign in to see the full list and claim items.</p>
-          <div style={{ display: 'flex', gap: 10 }}>
-            <Link href={`/signin?next=/share/${share_code}`} className="btn btn-primary">Sign in</Link>
-            <Link href={`/signup?next=/share/${share_code}`} className="btn btn-quiet">Create account</Link>
+          {preview && preview.length > 0 && (
+            <div className="items" style={{ marginBottom: 24 }}>
+              {preview.map((item) => (
+                <div key={item.id} className="item">
+                  <div className="item-body">
+                    <span className="item-name">{item.name}</span>
+                    {item.url && (
+                      <a href={item.url.startsWith('http') ? item.url : `https://${item.url}`} target="_blank" rel="noopener noreferrer" className="item-link">
+                        {displayUrl(item.url)} <ArrowUpRightIcon />
+                      </a>
+                    )}
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+
+          <div className="note" style={{ flexDirection: 'column', gap: 16 }}>
+            <p style={{ color: 'var(--ink)' }}>Sign in to see the full list and claim items.</p>
+            <div style={{ display: 'flex', gap: 10 }}>
+              <Link href={`/signin?next=/share/${share_code}`} className="btn btn-primary">Sign in</Link>
+              <Link href={`/signup?next=/share/${share_code}`} className="btn btn-quiet">Create account</Link>
+            </div>
           </div>
         </div>
-      </div>
+      </>
     )
   }
 
