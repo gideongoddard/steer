@@ -218,17 +218,16 @@ export default async function SharePage({
       <div className="screen">
         <Link href="/" className="back">
           <ArrowLeftIcon />
-          My lists
+          All lists
         </Link>
 
         <div className="header-block" style={{ marginTop: 14 }}>
           <div className="header-top">
             <div className="head-col">
-              <div className="eyebrow">{list.name}</div>
               <h1 className="display">{list.name}</h1>
               <div className="title-meta">
                 <div className="avatar" style={{ width: 26, height: 26, fontSize: 11 }}>{ownerInitials}</div>
-                <span className="l-sub" style={{ fontSize: 13.5 }}>{ownerFullName} · {(items ?? []).length} gifts</span>
+                <span className="l-sub" style={{ fontSize: 13.5 }}>{ownerFullName} · {(items ?? []).length} {(items ?? []).length === 1 ? 'gift idea' : 'gift ideas'}</span>
               </div>
             </div>
           </div>

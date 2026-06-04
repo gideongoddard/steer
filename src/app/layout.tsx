@@ -22,7 +22,7 @@ const newsreader = Newsreader({
 
 export const metadata: Metadata = {
   title: "Steer",
-  description: "Your gift wish lists",
+  description: "Your gift idea wish lists",
 };
 
 export default function RootLayout({

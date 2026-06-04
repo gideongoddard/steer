@@ -2,6 +2,7 @@ import Link from 'next/link'
 import { redirect } from 'next/navigation'
 import { createClient } from '@/utils/supabase/server'
 import CopyShareLink from './CopyShareLink'
+import EditListName from './EditListName'
 import ItemRow from './ItemRow'
 import AddItemForm from './AddItemForm'
 import DeleteListFooter from './DeleteListFooter'
@@ -51,17 +52,17 @@ export default async function ListPage({
       <div className="screen">
         <Link href="/" className="back">
           <ArrowLeftIcon />
-          My lists
+          All lists
         </Link>
 
         <div className="header-block" style={{ marginTop: 14 }}>
           <div className="header-top">
             <div className="head-col">
               <div className="eyebrow">Your list</div>
-              <h1 className="display">{list.name}</h1>
+              <EditListName listId={list.id} name={list.name} />
               <div className="title-meta">
                 <span className="l-sub" style={{ fontSize: 13.5 }}>
-                  {(items ?? []).length} {(items ?? []).length === 1 ? 'gift' : 'gifts'}
+                  {(items ?? []).length} {(items ?? []).length === 1 ? 'gift idea' : 'gift ideas'}
                 </span>
               </div>
             </div>

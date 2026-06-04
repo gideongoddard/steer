@@ -77,8 +77,9 @@ export default async function DashboardPage() {
 
       <div className="screen">
         <div className="header-block">
-          <div className="eyebrow">Steer</div>
-          <h1 className="display">{greeting},<br />{firstName}.</h1>
+          <h1 className="display">
+            <span style={{ color: 'var(--muted)' }}>{greeting},</span><br />{firstName}.
+          </h1>
         </div>
 
         <section style={{ marginBottom: 46 }}>
@@ -93,7 +94,7 @@ export default async function DashboardPage() {
                   <div className="owned-name">{ownedList.name}</div>
                   <div className="owned-meta">
                     <span className="live-dot" />
-                    <span className="l-sub">{ownedItems.length} {ownedItems.length === 1 ? 'gift' : 'gifts'}</span>
+                    <span className="l-sub">{ownedItems.length} {ownedItems.length === 1 ? 'gift idea' : 'gift ideas'}</span>
                     <span className="dotsep">·</span>
                     <span className="owned-code">{siteUrl.replace(/https?:\/\//, '')}/share/{ownedList.share_code}</span>
                   </div>
@@ -109,7 +110,7 @@ export default async function DashboardPage() {
                     </div>
                   ))}
                   {moreCount > 0 && (
-                    <div className="owned-more">+ {moreCount} more {moreCount === 1 ? 'gift' : 'gifts'} on your list</div>
+                    <div className="owned-more">+ {moreCount} more {moreCount === 1 ? 'gift idea' : 'gift ideas'}</div>
                   )}
                 </div>
               )}
@@ -154,7 +155,7 @@ export default async function DashboardPage() {
                     <div className="meta-col">
                       <span className="l-name">{list.name}</span>
                       <span className="l-meta">
-                        <span className="l-sub">{ownerName ? `${ownerName} · ` : ''}{itemCount} {itemCount === 1 ? 'gift' : 'gifts'}</span>
+                        <span className="l-sub">{ownerName ? `${ownerName} · ` : ''}{itemCount} {itemCount === 1 ? 'gift idea' : 'gift ideas'}</span>
                       </span>
                     </div>
                     <ChevronIcon />

@@ -31,9 +31,9 @@ export default function AddItemForm({ listId, hasItems }: { listId: string; hasI
       <div className="empty">
         <div className="empty-mark"><GiftIcon /></div>
         <h3>This list is empty</h3>
-        <p>Add the first gift — a name is all you need. A link makes it easy for others to find.</p>
+        <p>Add the first gift idea — a name is all you need. A link makes it easy for others to find.</p>
         <button type="button" className="btn btn-primary" onClick={() => setOpen(true)}>
-          <PlusIcon /> Add a gift
+          <PlusIcon /> Add a gift idea
         </button>
       </div>
     )
@@ -43,7 +43,7 @@ export default function AddItemForm({ listId, hasItems }: { listId: string; hasI
     return (
       <button type="button" className="add-trigger" onClick={() => setOpen(true)}>
         <span className="plus"><PlusIcon /></span>
-        Add a gift
+        Add a gift idea
       </button>
     )
   }
@@ -52,7 +52,7 @@ export default function AddItemForm({ listId, hasItems }: { listId: string; hasI
     <form action={action} className="add-card">
       <input type="hidden" name="listId" value={listId} />
       <div className="field">
-        <label htmlFor="add-name">Gift</label>
+        <label htmlFor="add-name">Gift idea</label>
         <input
           id="add-name"
           name="name"
@@ -77,7 +77,7 @@ export default function AddItemForm({ listId, hasItems }: { listId: string; hasI
         <div className="spacer" />
         <button type="button" className="btn btn-quiet btn-sm" onClick={() => setOpen(false)}>Cancel</button>
         <button type="submit" className="btn btn-primary btn-sm" disabled={pending}>
-          {pending ? 'Adding…' : 'Add gift'}
+          {pending ? 'Adding…' : 'Add gift idea'}
         </button>
       </div>
     </form>

@@ -53,7 +53,7 @@ export default function ItemRow({ item }: { item: Item }) {
         <input type="hidden" name="itemId" value={item.id} />
         <input type="hidden" name="listId" value={item.list_id} />
         <div className="field">
-          <label htmlFor={`name-${item.id}`}>Gift</label>
+          <label htmlFor={`name-${item.id}`}>Gift idea</label>
           <input
             id={`name-${item.id}`}
             name="name"

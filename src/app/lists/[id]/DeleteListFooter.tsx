@@ -20,7 +20,7 @@ export default function DeleteListFooter({ listId, listName }: { listId: string;
         <div className="confirm-card">
           <div className="confirm-text">
             <strong>Delete &ldquo;{listName}&rdquo;?</strong>
-            <span>This will permanently remove the list and all its gifts. Anyone with your share link will lose access.</span>
+            <span>This will permanently remove the list and all its gift ideas. Anyone with your share link will lose access.</span>
           </div>
           <div className="confirm-actions">
             <button type="button" className="btn btn-quiet btn-sm" onClick={() => setConfirming(false)}>
