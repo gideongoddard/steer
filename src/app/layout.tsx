@@ -21,7 +21,7 @@ const newsreader = Newsreader({
 });
 
 export const metadata: Metadata = {
-  title: "Wispr",
+  title: "Steer",
   description: "Your gift wish lists",
 };
 

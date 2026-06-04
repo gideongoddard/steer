@@ -64,7 +64,7 @@ export default async function DashboardPage() {
   return (
     <>
       <nav className="appbar">
-        <span className="wordmark">wispr<span className="dot">.</span></span>
+        <span className="wordmark">steer<span className="dot">.</span></span>
         <div className="appbar-right">
           <form action={signOut}>
             <button type="submit" className="account-pill">
@@ -77,7 +77,7 @@ export default async function DashboardPage() {
 
       <div className="screen">
         <div className="header-block">
-          <div className="eyebrow">Wispr</div>
+          <div className="eyebrow">Steer</div>
           <h1 className="display">{greeting},<br />{firstName}.</h1>
         </div>
 

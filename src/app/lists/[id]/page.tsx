@@ -45,7 +45,7 @@ export default async function ListPage({
   return (
     <>
       <nav className="appbar">
-        <span className="wordmark">wispr<span className="dot">.</span></span>
+        <span className="wordmark">steer<span className="dot">.</span></span>
       </nav>
 
       <div className="screen">

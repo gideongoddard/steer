@@ -133,7 +133,7 @@ export default async function SharePage({
     return (
       <>
         <nav className="appbar">
-          <span className="wordmark">wispr<span className="dot">.</span></span>
+          <span className="wordmark">steer<span className="dot">.</span></span>
         </nav>
         <div className="screen">
           <Link href={`/lists/${list.id}`} className="back">
@@ -198,7 +198,7 @@ export default async function SharePage({
   return (
     <>
       <nav className="appbar">
-        <span className="wordmark">wispr<span className="dot">.</span></span>
+        <span className="wordmark">steer<span className="dot">.</span></span>
       </nav>
       <div className="screen">
         <Link href="/" className="back">

@@ -10,7 +10,7 @@ export default async function SignUpPage({
 
   return (
     <main className={styles.main}>
-      <span className={styles.wordmark}>wispr<span className={styles.dot}>.</span></span>
+      <span className={styles.wordmark}>steer<span className={styles.dot}>.</span></span>
       <div className={styles.card}>
         <h1 className={styles.heading}>Create an account</h1>
         <SignUpForm next={next} />
