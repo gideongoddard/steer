@@ -627,6 +627,12 @@ a { color: inherit; text-decoration: none; }
   padding: 24px;
 }
 
+/* ── Mobile layout ── */
+@media (max-width: 540px) {
+  .header-top { flex-direction: column; }
+  .share-pill { align-self: flex-start; }
+}
+
 /* ── Reduced motion ── */
 @media (prefers-reduced-motion: reduce) {
   .screen, .item, .add-card, .claim-check { animation: none !important; }

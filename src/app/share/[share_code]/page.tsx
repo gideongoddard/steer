@@ -35,6 +35,15 @@ function CheckIcon() {
   )
 }
 
+function displayUrl(url: string): string {
+  try {
+    const full = url.startsWith('http') ? url : `https://${url}`
+    return new URL(full).hostname.replace(/^www\./, '')
+  } catch {
+    return url
+  }
+}
+
 function getInitials(name: string) {
   const parts = name.trim().split(/\s+/)
   if (parts.length >= 2) return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase()
@@ -93,7 +102,7 @@ export default async function SharePage({
                   <span className="item-name">{item.name}</span>
                   {item.url && (
                     <a href={item.url.startsWith('http') ? item.url : `https://${item.url}`} target="_blank" rel="noopener noreferrer" className="item-link">
-                      {item.url} <ArrowUpRightIcon />
+                      {displayUrl(item.url)} <ArrowUpRightIcon />
                     </a>
                   )}
                 </div>
@@ -148,7 +157,7 @@ export default async function SharePage({
                     <span className="item-name">{item.name}</span>
                     {item.url && (
                       <a href={item.url.startsWith('http') ? item.url : `https://${item.url}`} target="_blank" rel="noopener noreferrer" className="item-link">
-                        {item.url} <ArrowUpRightIcon />
+                        {displayUrl(item.url)} <ArrowUpRightIcon />
                       </a>
                     )}
                   </div>
@@ -239,7 +248,7 @@ export default async function SharePage({
                       <span className="claim-label">You&apos;re giving this</span>
                     ) : item.url ? (
                       <a href={item.url.startsWith('http') ? item.url : `https://${item.url}`} target="_blank" rel="noopener noreferrer" className="item-link">
-                        {item.url} <ArrowUpRightIcon />
+                        {displayUrl(item.url)} <ArrowUpRightIcon />
                       </a>
                     ) : null}
                   </div>

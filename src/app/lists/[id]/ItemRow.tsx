@@ -6,6 +6,15 @@ import { updateItem, deleteItem } from '../../actions/items'
 
 type Item = { id: string; list_id: string; name: string; url: string | null }
 
+function displayUrl(url: string): string {
+  try {
+    const full = url.startsWith('http') ? url : `https://${url}`
+    return new URL(full).hostname.replace(/^www\./, '')
+  } catch {
+    return url
+  }
+}
+
 function ArrowUpRightIcon() {
   return (
     <svg width={12} height={12} viewBox="0 0 24 24" fill="none">
@@ -88,7 +97,7 @@ export default function ItemRow({ item }: { item: Item }) {
             target="_blank"
             rel="noopener noreferrer"
           >
-            {item.url} <ArrowUpRightIcon />
+            {displayUrl(item.url)} <ArrowUpRightIcon />
           </a>
         )}
       </div>
