@@ -59,8 +59,6 @@ export default async function DashboardPage() {
   const previewItems = ownedItems.slice(0, 3)
   const moreCount = ownedItems.length - previewItems.length
 
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'http://localhost:3000'
-
   return (
     <>
       <nav className="appbar">
@@ -95,8 +93,6 @@ export default async function DashboardPage() {
                   <div className="owned-meta">
                     <span className="live-dot" />
                     <span className="l-sub">{ownedItems.length} {ownedItems.length === 1 ? 'gift idea' : 'gift ideas'}</span>
-                    <span className="dotsep">·</span>
-                    <span className="owned-code">{siteUrl.replace(/https?:\/\//, '')}/share/{ownedList.share_code}</span>
                   </div>
                 </div>
                 <span className="owned-open"><ChevronIcon /></span>
