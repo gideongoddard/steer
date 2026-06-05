@@ -128,8 +128,8 @@ export default async function SharePage({
           <div className="note" style={{ flexDirection: 'column', gap: 16 }}>
             <p style={{ color: 'var(--ink)' }}>Sign in to see the full list and claim items.</p>
             <div style={{ display: 'flex', gap: 10 }}>
-              <Link href={`/signin?next=/share/${share_code}`} className="btn btn-primary">Sign in</Link>
-              <Link href={`/signup?next=/share/${share_code}`} className="btn btn-quiet">Create account</Link>
+              <Link href={`/signup?next=/share/${share_code}`} className="btn btn-primary">Create account</Link>
+              <Link href={`/signin?next=/share/${share_code}`} className="btn btn-quiet">Sign in</Link>
             </div>
           </div>
         </div>

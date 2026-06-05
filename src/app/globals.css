@@ -363,8 +363,8 @@ a { color: inherit; text-decoration: none; }
 }
 .btn-ghost:hover { border-color: var(--muted); background: var(--surface2); }
 
-.btn-quiet { background: none; color: var(--muted); padding: 7px 11px; }
-.btn-quiet:hover { color: var(--ink); background: var(--surface2); }
+.btn-quiet { background: none; color: var(--ink); border-color: var(--border); }
+.btn-quiet:hover { background: var(--surface2); border-color: var(--muted); }
 
 .btn-danger { background: none; color: var(--muted); padding: 7px 11px; }
 .btn-danger:hover { color: oklch(0.55 0.16 25); background: oklch(0.95 0.03 25); }
