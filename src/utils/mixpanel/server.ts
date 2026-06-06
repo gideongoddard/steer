@@ -1,5 +1,3 @@
-import Mixpanel from 'mixpanel'
-
 export async function trackEvent(
   event: string,
   distinctId: string,
@@ -11,13 +9,20 @@ export async function trackEvent(
     return
   }
 
-  const mp = Mixpanel.init(token)
+  const payload = JSON.stringify([{
+    event,
+    properties: { token, distinct_id: distinctId, ...properties },
+  }])
 
-  await new Promise<void>((resolve) => {
-    mp.track(event, { distinct_id: distinctId, ...properties }, (err) => {
-      if (err) console.error('[Mixpanel] error:', err)
-      else console.log('[Mixpanel] tracked:', event)
-      resolve()
+  try {
+    const res = await fetch('https://api.mixpanel.com/track?verbose=1', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: `data=${encodeURIComponent(Buffer.from(payload).toString('base64'))}`,
     })
-  })
+    const body = await res.text()
+    console.log('[Mixpanel]', event, res.status, body)
+  } catch (err) {
+    console.error('[Mixpanel] fetch error:', err)
+  }
 }
