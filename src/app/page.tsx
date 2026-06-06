@@ -1,7 +1,8 @@
 import Link from 'next/link'
 import { redirect } from 'next/navigation'
 import { createClient } from '@/utils/supabase/server'
-import { signOut } from './actions/auth'
+import MixpanelIdentify from './MixpanelIdentify'
+import SignOutButton from './SignOutButton'
 
 function getGreeting() {
   const hour = new Date().getHours()
@@ -61,15 +62,11 @@ export default async function DashboardPage() {
 
   return (
     <>
+      <MixpanelIdentify userId={user.id} />
       <nav className="appbar">
         <span className="wordmark">steer<span className="dot">.</span></span>
         <div className="appbar-right">
-          <form action={signOut}>
-            <button type="submit" className="account-pill">
-              <div className="avatar">{initials}</div>
-              Sign out
-            </button>
-          </form>
+          <SignOutButton initials={initials} />
         </div>
       </nav>
 

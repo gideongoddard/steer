@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import { createClient } from '@/utils/supabase/server'
 import { claimItem, unclaimItem } from '@/app/actions/claims'
+import MixpanelIdentify from '@/app/MixpanelIdentify'
 
 function ArrowLeftIcon() {
   return (
@@ -147,6 +148,7 @@ export default async function SharePage({
   if (user.id === list.user_id) {
     return (
       <>
+        <MixpanelIdentify userId={user.id} />
         <nav className="appbar">
           <span className="wordmark">steer<span className="dot">.</span></span>
         </nav>
@@ -212,6 +214,7 @@ export default async function SharePage({
 
   return (
     <>
+      <MixpanelIdentify userId={user.id} />
       <nav className="appbar">
         <span className="wordmark">steer<span className="dot">.</span></span>
       </nav>

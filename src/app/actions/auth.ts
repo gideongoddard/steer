@@ -3,6 +3,7 @@
 import { redirect } from 'next/navigation'
 import { cookies } from 'next/headers'
 import { createClient } from '@/utils/supabase/server'
+import { trackEvent } from '@/utils/mixpanel/server'
 
 export type AuthState = { error?: string; success?: boolean; expired?: boolean }
 
@@ -21,7 +22,7 @@ export async function signUp(prevState: AuthState, formData: FormData): Promise<
   if (!lastName) return { error: 'Last name is required.' }
 
   const supabase = await createClient()
-  const { error } = await supabase.auth.signUp({
+  const { data, error } = await supabase.auth.signUp({
     email,
     password,
     options: { data: { first_name: firstName, last_name: lastName } },
@@ -32,6 +33,10 @@ export async function signUp(prevState: AuthState, formData: FormData): Promise<
       return { error: 'An account with this email already exists.' }
     }
     return { error: error.message }
+  }
+
+  if (data.user) {
+    await trackEvent('sign_up_completed', data.user.id, { first_name: firstName })
   }
 
   redirect(safeNext(formData.get('next')))

@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import { mixpanel } from '@/utils/mixpanel/client'
 
 function CopyIcon() {
   return (
@@ -24,6 +25,7 @@ export default function CopyShareLink({ url, code }: { url: string; code: string
 
   const handleCopy = async () => {
     await navigator.clipboard.writeText(url)
+    try { mixpanel.track('share_link_copied', { share_code: code }) } catch {}
     setCopied(true)
     setTimeout(() => setCopied(false), 1800)
   }
