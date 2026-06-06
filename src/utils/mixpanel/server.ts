@@ -12,12 +12,13 @@ export async function trackEvent(
   }])
 
   try {
-    await fetch('https://api.mixpanel.com/track', {
+    const res = await fetch('https://api.mixpanel.com/track?verbose=1', {
       method: 'POST',
       headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-      body: `data=${Buffer.from(payload).toString('base64')}`,
+      body: `data=${encodeURIComponent(Buffer.from(payload).toString('base64'))}`,
     })
-  } catch {
-    // Never let analytics failures break the app
+    if (!res.ok) console.error('[Mixpanel] HTTP error:', res.status, await res.text())
+  } catch (err) {
+    console.error('[Mixpanel] fetch error:', err)
   }
 }
