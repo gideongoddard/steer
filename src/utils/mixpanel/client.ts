@@ -7,6 +7,7 @@ export function initMixpanel(): void {
   mixpanel.init(process.env.NEXT_PUBLIC_MIXPANEL_TOKEN!, {
     persistence: 'localStorage',
     track_pageview: true,
+    cross_subdomain_cookie: false,
   })
   initialized = true
 }
