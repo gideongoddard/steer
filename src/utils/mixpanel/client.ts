@@ -5,9 +5,8 @@ let initialized = false
 export function initMixpanel(): void {
   if (initialized || typeof window === 'undefined') return
   mixpanel.init(process.env.NEXT_PUBLIC_MIXPANEL_TOKEN!, {
-    persistence: 'localStorage',
+    persistence: 'memory',
     track_pageview: true,
-    cross_subdomain_cookie: false,
   })
   initialized = true
 }
