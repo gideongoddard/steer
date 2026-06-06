@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import { Newsreader } from "next/font/google";
 import "./globals.css";
 import MixpanelProvider from "./MixpanelProvider";
+import { createClient } from "@/utils/supabase/server";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -26,14 +27,17 @@ export const metadata: Metadata = {
   description: "Your gift idea wish lists",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const supabase = await createClient()
+  const { data: { user } } = await supabase.auth.getUser()
+
   return (
     <html lang="en" className={`${geistSans.variable} ${geistMono.variable} ${newsreader.variable}`}>
-      <body><MixpanelProvider>{children}</MixpanelProvider></body>
+      <body><MixpanelProvider userId={user?.id}>{children}</MixpanelProvider></body>
     </html>
   );
 }
