@@ -1,7 +1,6 @@
 import Link from 'next/link'
 import { redirect } from 'next/navigation'
 import { createClient } from '@/utils/supabase/server'
-import MixpanelIdentify from '@/app/MixpanelIdentify'
 import CopyShareLink from './CopyShareLink'
 import EditListName from './EditListName'
 import ItemRow from './ItemRow'
@@ -46,7 +45,6 @@ export default async function ListPage({
 
   return (
     <>
-      <MixpanelIdentify userId={user.id} />
       <nav className="appbar">
         <span className="wordmark">steer<span className="dot">.</span></span>
       </nav>
