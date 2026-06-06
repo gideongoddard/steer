@@ -4,7 +4,10 @@ export async function trackEvent(
   properties: Record<string, unknown> = {}
 ): Promise<void> {
   const token = process.env.NEXT_PUBLIC_MIXPANEL_TOKEN
-  if (!token) return
+  if (!token) {
+    console.error('[Mixpanel] token missing — set NEXT_PUBLIC_MIXPANEL_TOKEN')
+    return
+  }
 
   const payload = JSON.stringify([{
     event,
@@ -17,7 +20,8 @@ export async function trackEvent(
       headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
       body: `data=${encodeURIComponent(Buffer.from(payload).toString('base64'))}`,
     })
-    if (!res.ok) console.error('[Mixpanel] HTTP error:', res.status, await res.text())
+    const body = await res.text()
+    console.log('[Mixpanel]', event, res.status, body)
   } catch (err) {
     console.error('[Mixpanel] fetch error:', err)
   }
