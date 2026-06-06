@@ -15,7 +15,7 @@ export async function trackEvent(
   }])
 
   try {
-    const res = await fetch('https://api.mixpanel.com/track?verbose=1', {
+    const res = await fetch('https://api-eu.mixpanel.com/track?verbose=1', {
       method: 'POST',
       headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
       body: `data=${encodeURIComponent(Buffer.from(payload).toString('base64'))}`,
