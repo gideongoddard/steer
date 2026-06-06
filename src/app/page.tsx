@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import { redirect } from 'next/navigation'
 import { createClient } from '@/utils/supabase/server'
-import { signOut } from './actions/auth'
+import AppNav from './AppNav'
 
 function getGreeting() {
   const hour = new Date().getHours()
@@ -9,6 +9,7 @@ function getGreeting() {
   if (hour < 17) return 'Good afternoon'
   return 'Good evening'
 }
+
 
 function getInitials(firstName: string, lastName: string) {
   if (firstName && lastName) return (firstName[0] + lastName[0]).toUpperCase()
@@ -51,7 +52,6 @@ export default async function DashboardPage() {
   const profileMap = new Map((ownerProfiles ?? []).map(p => [p.user_id, p]))
 
   const firstName = profile?.first_name || 'there'
-  const initials = profile ? getInitials(profile.first_name, profile.last_name) : '?'
   const greeting = getGreeting()
 
   const ownedList = lists && lists.length > 0 ? lists[0] : null
@@ -61,17 +61,7 @@ export default async function DashboardPage() {
 
   return (
     <>
-      <nav className="appbar">
-        <span className="wordmark">steer<span className="dot">.</span></span>
-        <div className="appbar-right">
-          <form action={signOut}>
-            <button type="submit" className="account-pill">
-              <div className="avatar">{initials}</div>
-              Sign out
-            </button>
-          </form>
-        </div>
-      </nav>
+      <AppNav />
 
       <div className="screen">
         <div className="header-block">

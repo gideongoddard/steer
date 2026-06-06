@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import { createClient } from '@/utils/supabase/server'
+import AppNav from '@/app/AppNav'
 import { claimItem, unclaimItem } from '@/app/actions/claims'
 
 function ArrowLeftIcon() {
@@ -147,9 +148,7 @@ export default async function SharePage({
   if (user.id === list.user_id) {
     return (
       <>
-        <nav className="appbar">
-          <span className="wordmark">steer<span className="dot">.</span></span>
-        </nav>
+        <AppNav />
         <div className="screen">
           <Link href={`/lists/${list.id}`} className="back">
             <ArrowLeftIcon />
@@ -212,9 +211,7 @@ export default async function SharePage({
 
   return (
     <>
-      <nav className="appbar">
-        <span className="wordmark">steer<span className="dot">.</span></span>
-      </nav>
+      <AppNav />
       <div className="screen">
         <Link href="/" className="back">
           <ArrowLeftIcon />
