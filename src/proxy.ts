@@ -33,6 +33,7 @@ export async function proxy(request: NextRequest) {
     || pathname === '/signup'
     || pathname === '/forgot-password'
   const isPublicRoute = isAuthRoute
+    || pathname === '/'
     || pathname === '/auth/callback'
     || pathname === '/reset-password'
     || pathname.startsWith('/share/')

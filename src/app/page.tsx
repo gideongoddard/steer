@@ -1,7 +1,7 @@
 import Link from 'next/link'
-import { redirect } from 'next/navigation'
 import { createClient } from '@/utils/supabase/server'
 import AppNav from './AppNav'
+import LandingPage from './LandingPage'
 
 function getGreeting() {
   const hour = new Date().getHours()
@@ -29,7 +29,7 @@ export default async function DashboardPage() {
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
 
-  if (!user) redirect('/signin')
+  if (!user) return <LandingPage />
 
   const [{ data: profile }, { data: lists }, { data: savedLists }] = await Promise.all([
     supabase.from('profiles').select('first_name, last_name').eq('user_id', user.id).single(),
