@@ -1,15 +1,12 @@
-import Link from 'next/link'
 import styles from '../legal.module.css'
+import AppNav from '../AppNav'
 import AppFooter from '../AppFooter'
 
 export default function TermsPage() {
   return (
     <>
+    <AppNav />
     <div className={styles.page}>
-      <Link href="/" className={styles.wordmark}>
-        steer<span className={styles.dot}>.</span>
-      </Link>
-
       <h1 className={styles.title}>Terms of Service</h1>
       <p className={styles.updated}>Last updated: 9 June 2026</p>
 
