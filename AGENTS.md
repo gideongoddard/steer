@@ -8,7 +8,8 @@ This version has breaking changes — APIs, conventions, and file structure may 
 
 When implementing a Linear issue:
 
-1. Get the `gitBranchName` from the Linear issue before doing anything else.
-2. Create a local branch using that exact name and push it to origin before starting any work: `git checkout -b <branchName> && git push -u origin <branchName>`
-3. Do all work and commits on that branch.
-4. Ask permission before committing or pushing, as usual.
+1. Switch to main and pull the latest: `git checkout main && git pull`
+2. Get the `gitBranchName` from the Linear issue.
+3. Create a local branch using that exact name and push it to origin before starting any work: `git checkout -b <branchName> && git push -u origin <branchName>`
+4. Do all work and commits on that branch.
+5. Ask permission before committing or pushing, as usual.
