@@ -25,16 +25,21 @@ export default async function AppNav() {
   return (
     <nav className="appbar">
       <Link href="/" className="wordmark">steer<span className="dot">.</span></Link>
-      {user && (
-        <div className="appbar-right">
+      <div className="appbar-right">
+        {user ? (
           <form action={signOut}>
             <button type="submit" className="account-pill">
               <div className="avatar">{initials}</div>
               Sign out
             </button>
           </form>
-        </div>
-      )}
+        ) : (
+          <>
+            <Link href="/signin" className="btn btn-ghost btn-sm">Sign in</Link>
+            <Link href="/signup" className="btn btn-primary btn-sm">Create account</Link>
+          </>
+        )}
+      </div>
     </nav>
   )
 }
