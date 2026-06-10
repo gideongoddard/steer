@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import { createClient } from '@/utils/supabase/server'
 import AppNav from './AppNav'
+import AppFooter from './AppFooter'
 import LandingPage from './LandingPage'
 
 function getGreeting() {
@@ -152,6 +153,7 @@ export default async function DashboardPage() {
           </section>
         )}
       </div>
+      <AppFooter />
     </>
   )
 }

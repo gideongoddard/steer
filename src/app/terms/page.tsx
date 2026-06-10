@@ -1,8 +1,10 @@
 import Link from 'next/link'
 import styles from '../legal.module.css'
+import AppFooter from '../AppFooter'
 
 export default function TermsPage() {
   return (
+    <>
     <div className={styles.page}>
       <Link href="/" className={styles.wordmark}>
         steer<span className={styles.dot}>.</span>
@@ -37,5 +39,7 @@ export default function TermsPage() {
 
       </div>
     </div>
+    <AppFooter />
+    </>
   )
 }

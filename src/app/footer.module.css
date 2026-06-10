@@ -1,0 +1,51 @@
+.footer {
+  border-top: 1px solid var(--border);
+  padding: 36px clamp(24px, 6vw, 56px) 32px;
+}
+
+.inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  flex-wrap: wrap;
+  max-width: 660px;
+  margin: 0 auto;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.wordmark {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 500;
+  font-size: 21px;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+  text-decoration: none;
+}
+
+.dot { color: var(--accent); font-style: normal; }
+
+.copy {
+  font-size: 13px;
+  color: var(--faint);
+}
+
+.links {
+  display: flex;
+  align-items: center;
+  gap: 26px;
+  font-size: 14px;
+}
+
+.links a {
+  color: var(--muted);
+  transition: color .15s ease;
+}
+
+.links a:hover { color: var(--ink); }

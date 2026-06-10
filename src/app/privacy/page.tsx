@@ -1,8 +1,10 @@
 import Link from 'next/link'
 import styles from '../legal.module.css'
+import AppFooter from '../AppFooter'
 
 export default function PrivacyPage() {
   return (
+    <>
     <div className={styles.page}>
       <Link href="/" className={styles.wordmark}>
         steer<span className={styles.dot}>.</span>
@@ -42,5 +44,7 @@ export default function PrivacyPage() {
 
       </div>
     </div>
+    <AppFooter />
+    </>
   )
 }

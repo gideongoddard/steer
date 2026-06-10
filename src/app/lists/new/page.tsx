@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import AppNav from '../../AppNav'
+import AppFooter from '../../AppFooter'
 import CreateListForm from './CreateListForm'
 
 function ArrowLeftIcon() {
@@ -24,6 +25,7 @@ export default function NewListPage() {
         </div>
         <CreateListForm />
       </div>
+      <AppFooter />
     </>
   )
 }

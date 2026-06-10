@@ -2,6 +2,7 @@ import Link from 'next/link'
 import { redirect } from 'next/navigation'
 import { createClient } from '@/utils/supabase/server'
 import AppNav from '../../AppNav'
+import AppFooter from '../../AppFooter'
 import CopyShareLink from './CopyShareLink'
 import EditListName from './EditListName'
 import ItemRow from './ItemRow'
@@ -80,6 +81,7 @@ export default async function ListPage({
         <AddItemForm listId={list.id} hasItems={!!(items && items.length > 0)} />
         <DeleteListFooter listId={list.id} listName={list.name} />
       </div>
+      <AppFooter />
     </>
   )
 }
