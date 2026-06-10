@@ -25,6 +25,9 @@ const newsreader = Newsreader({
 export const metadata: Metadata = {
   title: "Steer",
   description: "Steer is the gift wishlist for birthdays, Christmas and more. Make your list, share one link, and let everyone claim what they're giving — privately, so nothing gets bought twice.",
+  verification: {
+    google: "knVFJ4PDsKeB6oVfny0WFnA61TRqtBazqZ3bQpN1WVk",
+  },
 };
 
 export default async function RootLayout({
