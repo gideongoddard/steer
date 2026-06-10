@@ -2,6 +2,7 @@
   max-width: 660px;
   margin: 0 auto;
   padding: clamp(48px, 8vw, 80px) clamp(24px, 6vw, 56px) 48px;
+  flex: 1;
 }
 
 .wordmark {
