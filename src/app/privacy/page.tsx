@@ -40,8 +40,6 @@ export default function PrivacyPage() {
         <h2>Your rights</h2>
         <p>You can request deletion of your account and all associated data at any time by contacting us. You can also request a copy of the data we hold about you.</p>
 
-        <h2>Contact</h2>
-        <p>Questions? Email <a href="mailto:goddard.gcw@gmail.com">goddard.gcw@gmail.com</a>.</p>
       </div>
     </div>
   )

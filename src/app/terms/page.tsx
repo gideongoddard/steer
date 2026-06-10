@@ -35,8 +35,6 @@ export default function TermsPage() {
         <h2>Changes</h2>
         <p>We may update these terms from time to time. Continued use of the app after changes are posted means you accept the updated terms.</p>
 
-        <h2>Contact</h2>
-        <p>Questions? Email <a href="mailto:goddard.gcw@gmail.com">goddard.gcw@gmail.com</a>.</p>
       </div>
     </div>
   )
