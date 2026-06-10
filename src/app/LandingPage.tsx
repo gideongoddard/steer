@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import styles from './landing.module.css'
 import LandingScrollReveal from './LandingScrollReveal'
+import AppFooter from './AppFooter'
 
 export default function LandingPage() {
   return (
@@ -202,23 +203,7 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* Footer */}
-      <footer className={styles.footer}>
-        <div className={`${styles.wrap} ${styles.footInner}`}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
-            <Link href="/" className={styles.wordmark} style={{ fontSize: 21 }}>
-              steer<span className={styles.dot}>.</span>
-            </Link>
-            <span className={styles.footCopy}>© 2026 Steer</span>
-          </div>
-          <nav className={styles.footLinks}>
-            <Link href="/privacy">Privacy</Link>
-            <Link href="/terms">Terms</Link>
-            <Link href="/signin">Sign in</Link>
-            <Link href="/signup">Create account</Link>
-          </nav>
-        </div>
-      </footer>
+      <AppFooter />
     </div>
   )
 }
