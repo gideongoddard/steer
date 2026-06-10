@@ -24,6 +24,7 @@ export default async function AppNav() {
 
   return (
     <nav className="appbar">
+      <div className="appbar-inner">
       <Link href="/" className="wordmark">steer<span className="dot">.</span></Link>
       <div className="appbar-right">
         {user ? (
@@ -39,6 +40,7 @@ export default async function AppNav() {
             <Link href="/signup" className="btn btn-primary btn-sm">Create account</Link>
           </>
         )}
+      </div>
       </div>
     </nav>
   )

@@ -15,7 +15,7 @@ export default function LandingPage() {
             steer<span className={styles.dot}>.</span>
           </Link>
           <nav className={styles.barRight}>
-            <Link href="/signin" className={`${styles.btn} ${styles.btnText} ${styles.hideSm}`}>Sign in</Link>
+            <Link href="/signin" className={`${styles.btn} ${styles.btnText}`}>Sign in</Link>
             <Link href="/signup" className={`${styles.btn} ${styles.btnPrimary}`}>Create account</Link>
           </nav>
         </div>
