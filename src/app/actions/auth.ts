@@ -95,6 +95,25 @@ export async function resetPassword(prevState: AuthState, formData: FormData): P
   redirect('/')
 }
 
+export async function signInWithGoogle(_: AuthState, formData: FormData): Promise<AuthState> {
+  const next = formData.get('next')
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'http://localhost:3000'
+  const callbackUrl = new URL('/auth/callback', siteUrl)
+  if (typeof next === 'string' && next.startsWith('/') && !next.startsWith('//')) {
+    callbackUrl.searchParams.set('next', next)
+  }
+
+  const supabase = await createClient()
+  const { data, error } = await supabase.auth.signInWithOAuth({
+    provider: 'google',
+    options: { redirectTo: callbackUrl.toString() },
+  })
+
+  if (error) return { error: error.message }
+  if (data.url) redirect(data.url)
+  return { error: 'Could not connect to Google. Please try again.' }
+}
+
 export async function signOut(_: FormData): Promise<void> {
   const supabase = await createClient()
   await supabase.auth.signOut()

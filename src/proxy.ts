@@ -36,6 +36,8 @@ export async function proxy(request: NextRequest) {
     || pathname === '/auth/callback'
     || pathname === '/reset-password'
     || pathname.startsWith('/share/')
+    || pathname === '/privacy'
+    || pathname === '/terms'
 
   const resetPending = request.cookies.get('password_reset_pending')?.value === '1'
   if (user && resetPending && pathname !== '/reset-password') {
