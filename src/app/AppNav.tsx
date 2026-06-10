@@ -1,3 +1,4 @@
+import Link from 'next/link'
 import { createClient } from '@/utils/supabase/server'
 import { signOut } from './actions/auth'
 
@@ -23,7 +24,7 @@ export default async function AppNav() {
 
   return (
     <nav className="appbar">
-      <span className="wordmark">steer<span className="dot">.</span></span>
+      <Link href="/" className="wordmark">steer<span className="dot">.</span></Link>
       {user && (
         <div className="appbar-right">
           <form action={signOut}>

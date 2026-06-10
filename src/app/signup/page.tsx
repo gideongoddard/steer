@@ -1,5 +1,6 @@
 import styles from '../auth.module.css'
 import SignUpForm from './SignUpForm'
+import AuthNav from '../AuthNav'
 
 export default async function SignUpPage({
   searchParams,
@@ -10,7 +11,7 @@ export default async function SignUpPage({
 
   return (
     <main className={styles.main}>
-      <span className={styles.wordmark}>steer<span className={styles.dot}>.</span></span>
+      <AuthNav />
       <div className={styles.card}>
         <h1 className={styles.heading}>Create an account</h1>
         <SignUpForm next={next} />
