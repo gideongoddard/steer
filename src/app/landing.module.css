@@ -252,7 +252,7 @@
   border-top: 1px solid var(--border);
   border-bottom: 1px solid var(--border);
 }
-.secPad { padding: clamp(64px, 9vw, 110px) 0; }
+.secPad { padding-top: clamp(64px, 9vw, 110px); padding-bottom: clamp(64px, 9vw, 110px); }
 .secHead { max-width: 40rem; margin-bottom: clamp(40px, 5vw, 60px); }
 .secEyebrow {
   font-family: var(--font-mono);
