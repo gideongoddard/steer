@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useActionState } from 'react'
 import { deleteList } from '../../actions/lists'
 
 function TrashIcon() {
@@ -13,6 +13,7 @@ function TrashIcon() {
 
 export default function DeleteListFooter({ listId, listName }: { listId: string; listName: string }) {
   const [confirming, setConfirming] = useState(false)
+  const [state, formAction, pending] = useActionState(deleteList, {})
 
   return (
     <div className="list-footer">
@@ -22,14 +23,15 @@ export default function DeleteListFooter({ listId, listName }: { listId: string;
             <strong>Delete &ldquo;{listName}&rdquo;?</strong>
             <span>This will permanently remove the list and all its gift ideas. Anyone with your share link will lose access.</span>
           </div>
+          {state.error && <p className="field-error">{state.error}</p>}
           <div className="confirm-actions">
-            <button type="button" className="btn btn-quiet btn-sm" onClick={() => setConfirming(false)}>
+            <button type="button" className="btn btn-quiet btn-sm" onClick={() => setConfirming(false)} disabled={pending}>
               Cancel
             </button>
-            <form action={deleteList}>
+            <form action={formAction}>
               <input type="hidden" name="listId" value={listId} />
-              <button type="submit" className="btn btn-sm btn-danger-solid">
-                Delete list
+              <button type="submit" className="btn btn-sm btn-danger-solid" disabled={pending}>
+                {pending ? 'Deleting…' : 'Delete list'}
               </button>
             </form>
           </div>
