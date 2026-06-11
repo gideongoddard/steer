@@ -5,7 +5,6 @@ import { createClient } from '@/utils/supabase/server'
 import { trackEvent } from '@/utils/mixpanel/server'
 
 export async function claimItem(formData: FormData): Promise<void> {
-  console.log('[claimItem] called')
   const itemId = formData.get('itemId') as string
   const shareCode = formData.get('shareCode') as string
 
