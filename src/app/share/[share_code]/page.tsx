@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import { createClient } from '@/utils/supabase/server'
 import AppNav from '@/app/AppNav'
+import AppFooter from '@/app/AppFooter'
 import { claimItem, unclaimItem } from '@/app/actions/claims'
 
 function ArrowLeftIcon() {
@@ -68,13 +69,17 @@ export default async function SharePage({
 
   if (!list) {
     return (
-      <div className="screen" style={{ paddingTop: 80, textAlign: 'center' }}>
-        <h1 className="display" style={{ marginBottom: 16 }}>List not found</h1>
-        <p className="l-sub" style={{ marginBottom: 24 }}>
-          This link doesn&apos;t match any list. The owner may have deleted it.
-        </p>
-        <Link href="/" className="btn btn-quiet">Go to dashboard</Link>
-      </div>
+      <>
+        <AppNav />
+        <div className="screen" style={{ paddingTop: 80, textAlign: 'center' }}>
+          <h1 className="display" style={{ marginBottom: 16 }}>List not found</h1>
+          <p className="l-sub" style={{ marginBottom: 24 }}>
+            This link doesn&apos;t match any list. The owner may have deleted it.
+          </p>
+          <Link href="/" className="btn btn-quiet">Go home</Link>
+        </div>
+        <AppFooter />
+      </>
     )
   }
 
@@ -95,9 +100,7 @@ export default async function SharePage({
 
     return (
       <>
-        <nav className="appbar">
-          <span className="wordmark">steer<span className="dot">.</span></span>
-        </nav>
+        <AppNav />
         <div className="screen">
           <div className="header-block">
             <h1 className="display">{list.name}</h1>
@@ -134,6 +137,7 @@ export default async function SharePage({
             </div>
           </div>
         </div>
+        <AppFooter />
       </>
     )
   }
