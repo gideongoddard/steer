@@ -85,7 +85,7 @@ export default async function SharePage({
                 <Link href="/signup" className="btn btn-primary">Create your list</Link>
                 <Link href="/signin" className="btn btn-quiet">Sign in</Link>
               </div>
-              <p className="l-sub">Lists shared with you are saved to your dashboard, so you won&apos;t lose them.</p>
+              <p className="l-sub" style={{ background: 'var(--surface2)', border: '1px solid var(--border)', borderRadius: 'var(--radius-sm)', padding: '12px 16px' }}>Lists shared with you are saved to your dashboard, so you won&apos;t lose them.</p>
             </>
           )}
         </div>
