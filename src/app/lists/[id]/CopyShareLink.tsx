@@ -21,17 +21,23 @@ function CheckIcon() {
 
 export default function CopyShareLink({ url, code }: { url: string; code: string }) {
   const [copied, setCopied] = useState(false)
+  const [failed, setFailed] = useState(false)
 
   const handleCopy = async () => {
-    await navigator.clipboard.writeText(url)
-    setCopied(true)
-    setTimeout(() => setCopied(false), 1800)
+    try {
+      await navigator.clipboard.writeText(url)
+      setCopied(true)
+      setTimeout(() => setCopied(false), 1800)
+    } catch {
+      setFailed(true)
+      setTimeout(() => setFailed(false), 1800)
+    }
   }
 
   return (
     <button type="button" onClick={handleCopy} className={`share-pill${copied ? ' copied' : ''}`}>
       <div className="share-meta">
-        <span className="share-label">{copied ? 'Link copied!' : 'Share your list'}</span>
+        <span className="share-label">{copied ? 'Link copied!' : failed ? 'Couldn\'t copy link' : 'Share your list'}</span>
         <span className="code">{code}</span>
       </div>
       <span className="copy-ic">{copied ? <CheckIcon /> : <CopyIcon />}</span>
