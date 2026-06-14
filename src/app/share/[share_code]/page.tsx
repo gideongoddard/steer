@@ -61,29 +61,38 @@ export default async function SharePage({
 
   const supabase = await createClient()
 
-  const { data: list } = await supabase
-    .from('lists')
-    .select('id, name, user_id')
-    .eq('share_code', share_code)
-    .single()
+  const [{ data: list }, { data: { user } }] = await Promise.all([
+    supabase.from('lists').select('id, name, user_id').eq('share_code', share_code).single(),
+    supabase.auth.getUser(),
+  ])
 
   if (!list) {
     return (
       <>
         <AppNav />
         <div className="screen" style={{ paddingTop: 80, textAlign: 'center' }}>
-          <h1 className="display" style={{ marginBottom: 16 }}>List not found</h1>
+          <h1 className="display" style={{ marginBottom: 16 }}>
+            This list isn&apos;t here <em>anymore</em>.
+          </h1>
           <p className="l-sub" style={{ marginBottom: 24 }}>
-            This link doesn&apos;t match any list. The owner may have deleted it.
+            It looks like this list has been deleted or the link is wrong. Deleted lists and their links can&apos;t be restored.
           </p>
-          <Link href="/" className="btn btn-quiet">Go home</Link>
+          {user ? (
+            <Link href="/" className="btn btn-primary">Go to my dashboard</Link>
+          ) : (
+            <>
+              <div style={{ display: 'flex', gap: 10, justifyContent: 'center', marginBottom: 24 }}>
+                <Link href="/signup" className="btn btn-primary">Create your list</Link>
+                <Link href="/signin" className="btn btn-quiet">Sign in</Link>
+              </div>
+              <p className="l-sub">Lists shared with you are saved to your dashboard, so you won&apos;t lose them.</p>
+            </>
+          )}
         </div>
         <AppFooter />
       </>
     )
   }
-
-  const { data: { user } } = await supabase.auth.getUser()
 
   // === Unauthenticated ===
   if (!user) {
