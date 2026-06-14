@@ -34,23 +34,24 @@ export async function updateList(prevState: ListState, formData: FormData): Prom
   redirect(`/lists/${listId}`)
 }
 
-export async function deleteList(formData: FormData): Promise<void> {
+export async function deleteList(prevState: ListState, formData: FormData): Promise<ListState> {
   const listId = formData.get('listId') as string
 
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
-  if (!user) return
+  if (!user) return { error: 'You must be signed in.' }
 
-  // Verify ownership before deleting
   const { data: list } = await supabase
     .from('lists')
     .select('user_id')
     .eq('id', listId)
     .single()
 
-  if (!list || list.user_id !== user.id) return
+  if (!list || list.user_id !== user.id) return { error: 'Not authorised.' }
 
-  await supabase.from('lists').delete().eq('id', listId)
+  const { error } = await supabase.from('lists').delete().eq('id', listId)
+  if (error) return { error: 'Something went wrong. Please try again.' }
+
   redirect('/')
 }
 
