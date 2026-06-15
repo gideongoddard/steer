@@ -20,6 +20,15 @@ function ArrowUpRightIcon() {
   )
 }
 
+function InfoIcon() {
+  return (
+    <svg width={14} height={14} viewBox="0 0 24 24" fill="none">
+      <circle cx="12" cy="12" r="9" stroke="currentColor" strokeWidth="1.6" />
+      <path d="M12 8v5M12 16h.01" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
+    </svg>
+  )
+}
+
 function LockIcon() {
   return (
     <svg width={14} height={14} viewBox="0 0 24 24" fill="none">
@@ -61,29 +70,49 @@ export default async function SharePage({
 
   const supabase = await createClient()
 
-  const { data: list } = await supabase
-    .from('lists')
-    .select('id, name, user_id')
-    .eq('share_code', share_code)
-    .single()
+  const [{ data: list }, { data: { user } }] = await Promise.all([
+    supabase.from('lists').select('id, name, user_id').eq('share_code', share_code).single(),
+    supabase.auth.getUser(),
+  ])
 
   if (!list) {
     return (
       <>
         <AppNav />
         <div className="screen" style={{ paddingTop: 80, textAlign: 'center' }}>
-          <h1 className="display" style={{ marginBottom: 16 }}>List not found</h1>
+          <h1 className="display" style={{ marginBottom: 16 }}>
+            This list isn&apos;t here <em>anymore</em>.
+          </h1>
           <p className="l-sub" style={{ marginBottom: 24 }}>
-            This link doesn&apos;t match any list. The owner may have deleted it.
+            It looks like this list has been deleted or the link is wrong. Deleted lists and their links can&apos;t be restored.
           </p>
-          <Link href="/" className="btn btn-quiet">Go home</Link>
+          {user ? (
+            <>
+              <div style={{ marginBottom: 24 }}>
+                <Link href="/" className="btn btn-primary">Go to my dashboard</Link>
+              </div>
+              <div style={{ display: 'inline-flex', alignItems: 'center', gap: 9, fontSize: 13, color: 'var(--muted)', background: 'var(--surface2)', border: '1px solid var(--border)', borderRadius: '100px', padding: '9px 15px' }}>
+                <InfoIcon />
+                Lists shared with you are saved to your dashboard, so you won&apos;t lose them.
+              </div>
+            </>
+          ) : (
+            <>
+              <div style={{ display: 'flex', gap: 10, justifyContent: 'center', marginBottom: 24 }}>
+                <Link href="/signup" className="btn btn-primary">Create your list</Link>
+                <Link href="/signin" className="btn btn-quiet">Sign in</Link>
+              </div>
+              <div style={{ display: 'inline-flex', alignItems: 'center', gap: 9, fontSize: 13, color: 'var(--muted)', background: 'var(--surface2)', border: '1px solid var(--border)', borderRadius: '100px', padding: '9px 15px' }}>
+                <InfoIcon />
+                Have a Steer account? Sign in to get back to your dashboard.
+              </div>
+            </>
+          )}
         </div>
         <AppFooter />
       </>
     )
   }
-
-  const { data: { user } } = await supabase.auth.getUser()
 
   // === Unauthenticated ===
   if (!user) {
