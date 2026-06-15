@@ -20,6 +20,15 @@ function ArrowUpRightIcon() {
   )
 }
 
+function InfoIcon() {
+  return (
+    <svg width={14} height={14} viewBox="0 0 24 24" fill="none">
+      <circle cx="12" cy="12" r="9" stroke="currentColor" strokeWidth="1.6" />
+      <path d="M12 8v5M12 16h.01" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
+    </svg>
+  )
+}
+
 function LockIcon() {
   return (
     <svg width={14} height={14} viewBox="0 0 24 24" fill="none">
@@ -78,14 +87,25 @@ export default async function SharePage({
             It looks like this list has been deleted or the link is wrong. Deleted lists and their links can&apos;t be restored.
           </p>
           {user ? (
-            <Link href="/" className="btn btn-primary">Go to my dashboard</Link>
+            <>
+              <div style={{ marginBottom: 24 }}>
+                <Link href="/" className="btn btn-primary">Go to my dashboard</Link>
+              </div>
+              <div style={{ display: 'inline-flex', alignItems: 'center', gap: 9, fontSize: 13, color: 'var(--muted)', background: 'var(--surface2)', border: '1px solid var(--border)', borderRadius: '100px', padding: '9px 15px' }}>
+                <InfoIcon />
+                Lists shared with you are saved to your dashboard, so you won&apos;t lose them.
+              </div>
+            </>
           ) : (
             <>
               <div style={{ display: 'flex', gap: 10, justifyContent: 'center', marginBottom: 24 }}>
                 <Link href="/signup" className="btn btn-primary">Create your list</Link>
                 <Link href="/signin" className="btn btn-quiet">Sign in</Link>
               </div>
-              <p className="l-sub" style={{ background: 'var(--surface2)', border: '1px solid var(--border)', borderRadius: 'var(--radius-sm)', padding: '12px 16px' }}>Lists shared with you are saved to your dashboard, so you won&apos;t lose them.</p>
+              <div style={{ display: 'inline-flex', alignItems: 'center', gap: 9, fontSize: 13, color: 'var(--muted)', background: 'var(--surface2)', border: '1px solid var(--border)', borderRadius: '100px', padding: '9px 15px' }}>
+                <InfoIcon />
+                Have a Steer account? Sign in to get back to your dashboard.
+              </div>
             </>
           )}
         </div>
